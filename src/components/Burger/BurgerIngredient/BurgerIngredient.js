@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import classes from './BurgerIngredient.css';
 
-class BurgerIngredient extends Compoent {
+class BurgerIngredient extends Component {
   render () {
     let ingredient = null;
 
@@ -31,8 +31,6 @@ class BurgerIngredient extends Compoent {
     case ('salad'):
       ingredient = <div className={classes.Salad}></div>;
       break;
-    default:
-      ingredient: null;
   }
 
   return ingredient;
