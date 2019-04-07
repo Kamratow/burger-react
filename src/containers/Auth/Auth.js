@@ -51,13 +51,24 @@ const auth = props => {
     }, []);
 
     const inputChangedHandler = (event, controlName) => {
-        const updatedControls = updateObject(authForm, {
-            [controlName]: updateObject(authForm[controlName], {
+        // const updatedControls = updateObject(authForm, {
+        //     [controlName]: updateObject(authForm[controlName], {
+        //         value: event.target.value,
+        //         valid: checkValidity(event.target.value, authForm[controlName].validation),
+        //         touched: true
+        //     })
+        // });
+
+        // I think that the approach shown below is more readable
+        const updatedControls = {
+            ...authForm,
+            [controlName]: {
+                ...authForm[controlName],
                 value: event.target.value,
                 valid: checkValidity(event.target.value, authForm[controlName].validation),
                 touched: true
-            })
-        });
+            },
+        };
         setAuthForm(updatedControls);
     }
 
@@ -78,46 +89,31 @@ const auth = props => {
         });
     }
 
-    let form = formElementsArray.map(formElement => (
-        <Input 
-            key={formElement.id}
-            elementType={formElement.config.elementType}
-            elementConfig={formElement.config.elementConfig}
-            value={formElement.config.value}
-            valueType={formElement.config.valueType}
-            invalid={!formElement.config.valid}
-            shouldValidate={formElement.config.validation}
-            touched={formElement.config.touched}
-            changed={(event) => inputChangedHandler(event, formElement.id)} />
-    ));
-
-    if (props.loading) {
-        form = <Spinner />;
-    }
-
-    let errorMessage = null;
-
-    if (props.error) {
-        errorMessage = (
-            <p>{props.error.message}</p>
-        );
-    }
-
-    let authRedirect = null;
-
-    if (props.isAuthenticated) {
-        authRedirect = <Redirect to={props.authRedirectPath}/>;
-    }
-
     return (
         <div className={classes.Auth}>
-            {authRedirect}
-            {errorMessage}
+            {props.isAuthenticated && <Redirect to={props.authRedirectPath}/>}
+            {props.error && <p>{props.error.message}</p>}
             <form onSubmit={submitHandler}>
-                {form}
+               {props.loading ? (
+                    <Spinner />
+                    ) : (
+                    formElementsArray.map(formElement => (
+                        <Input
+                        key={formElement.id}
+                        elementType={formElement.config.elementType}
+                        elementConfig={formElement.config.elementConfig}
+                        value={formElement.config.value}
+                        valueType={formElement.config.valueType}
+                        invalid={!formElement.config.valid}
+                        shouldValidate={formElement.config.validation}
+                        touched={formElement.config.touched}
+                        changed={event => inputChangedHandler(event, formElement.id)}
+                        />
+                    ))
+                )}
                 <Button btnType="Success">SUBMIT</Button>
             </form>
-            <Button 
+            <Button
                 clicked={switchAuthModeHandler}
                 btnType="Danger">SWITCH TO {isSignup ? 'SIGNIN' : 'SIGNUP'}</Button>
         </div>

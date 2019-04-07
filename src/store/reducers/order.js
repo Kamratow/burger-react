@@ -20,6 +20,9 @@ const purchaseBurgerSuccess = (state, action) => {
     return updateObject(state, {
         loading: false,
         purchased: true,
+        // orders: state.orders.concat(newOrder)
+        // why not
+        // orders: [...state.orders, newOrder],
         orders: state.orders.concat(newOrder)
     });
 };
@@ -33,13 +36,13 @@ const fetchOrdersStart = (state, action) => {
 };
 
 const fetchOrdersSuccess = (state, action) => {
-    return updateObject(state, { 
-        orders: action.orders, loading: false 
-    });  
+    return updateObject(state, {
+        orders: action.orders, loading: false
+    });
 };
 
 const fetchOrdersFail = (state, action) => {
-    return updateObject(state, { loading: false });   
+    return updateObject(state, { loading: false });
 };
 
 const reducer = (state = initialState, action) => {
@@ -49,8 +52,8 @@ const reducer = (state = initialState, action) => {
         case actionTypes.PURCHASE_BURGER_SUCCESS: return purchaseBurgerSuccess(state, action);
         case actionTypes.PURCHASE_BURGER_FAIL: return purchaseBurgerFail(state, action);
         case actionTypes.FETCH_ORDERS_START: return fetchOrdersStart(state, action);
-        case actionTypes.FETCH_ORDERS_SUCCESS: return fetchOrdersSuccess(state, action);    
-        case actionTypes.FETCH_ORDERS_FAIL: return fetchOrdersFail(state, action);     
+        case actionTypes.FETCH_ORDERS_SUCCESS: return fetchOrdersSuccess(state, action);
+        case actionTypes.FETCH_ORDERS_FAIL: return fetchOrdersFail(state, action);
         default: return state;
     }
 };

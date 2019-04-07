@@ -1,10 +1,9 @@
 import * as actionTypes from './actionTypes';
 
-export const authStart = () => {
-    return {
-        type: actionTypes.AUTH_START
-    };
-};
+// define all actions like the one below:
+export const authStart = () => ({
+    type: actionTypes.AUTH_START
+});
 
 export const authSuccess = (token, userId) => {
     return {

@@ -1,12 +1,16 @@
-import React from 'react';
+import React from "react";
 
-import classes from './Button.css';
+import classes from "./Button.css";
 
-const button = (props) => (
-    <button
-        disabled={props.disabled}
-        className={[classes.Button, classes[props.btnType]].join(' ')}
-        onClick={props.clicked}>{props.children}</button>
+// I'd use different prop name for 'clicked'
+const Button = ({ disabled, btnType, clicked, children }) => (
+  <button
+    disabled={disabled}
+    className={[classes.Button, classes[btnType]].join(" ")}
+    onClick={clicked}
+  >
+    {children}
+  </button>
 );
 
-export default button;
+export default Button;

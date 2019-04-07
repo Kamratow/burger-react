@@ -14,6 +14,9 @@ import orderReducer from './store/reducers/order';
 import authReducer from './store/reducers/auth';
 import { watchAuth, watchBurgerBuilder, watchOrder } from './store/sagas';
 
+// I'd put everything related to store configuration in a separate file
+// especially since you already have a store folder
+
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
 const rootReducer = combineReducers({

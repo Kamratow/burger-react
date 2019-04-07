@@ -1,9 +1,8 @@
-export const updateObject = (oldObject, updatedProperties) => {
-    return {
-        ...oldObject,
-        ...updatedProperties
-    };
-};
+// is such utility really necessary?
+export const updateObject = (oldObject, updatedProperties) => ({
+    ...oldObject,
+    ...updatedProperties
+});
 
 export const checkValidity = (value,rules) => {
     let isValid = true;

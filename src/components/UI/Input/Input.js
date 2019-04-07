@@ -2,58 +2,70 @@ import React from 'react';
 
 import classes from './Input.css';
 
-const input = (props) => {
+const Input = ({
+    invalid,
+    changed,
+    shouldValidate,
+    touched,
+    valueType,
+    elementType,
+    elementConfig,
+    value,
+    label,
+}) => {
     let inputElement = null;
     let validationError = null;
     const inputClasses = [classes.InputElement];
 
-    if (props.invalid && props.shouldValidate && props.touched) {
+    if (invalid && shouldValidate && touched) {
         inputClasses.push(classes.Invalid);
-        validationError = <p className={classes.ValidationError}>Please enter a valid {props.valueType}!</p>;
+        validationError = <p className={classes.ValidationError}>Please enter a valid {valueType}!</p>;
     }
 
-    switch (props.elementType) {
-        case ('input'):
-            inputElement = <input 
-                className={inputClasses.join(' ')} 
-                {...props.elementConfig} 
-                value={props.value}
-                onChange={props.changed} />;
+    switch (elementType) {
+        // thats actually first time when I see a parentheses around switch case :D
+        // case ('input'):
+        case "input":
+            inputElement = <input
+                className={inputClasses.join(' ')}
+                {...elementConfig}
+                value={value}
+                onChange={changed} />;
             break;
         case ('textarea'):
-            inputElement = <textarea 
-                className={inputClasses.join(' ')} 
-                {...props.elementConfig} 
-                value={props.value}
-                onChange={props.changed} />;
+            inputElement = <textarea
+                className={inputClasses.join(' ')}
+                {...elementConfig}
+                value={value}
+                onChange={changed} />;
             break;
         case ('select'):
             inputElement = (
                 <select
-                    className={inputClasses.join(' ')} 
-                    value={props.value}
-                    onChange={props.changed}>
-                    {props.elementConfig.options.map(option => (
+                    className={inputClasses.join(' ')}
+                    value={value}
+                    onChange={changed}>
+                    {elementConfig.options.map(option => (
                         <option key={option.value} value={option.value}>
                             {option.displayValue}
-                        </option>   
+                        </option>
                     ))}
                 </select>
             );
             break;
         default:
-            inputElement = <input className={inputClasses.join(' ')} {...props.elementConfig} value={props.value} />;
+            inputElement = <input className={inputClasses.join(' ')} {...elementConfig} value={value} />;
     }
 
     return (
         <div className={classes.Input}>
-            <label className={classes.Label}>{props.label}</label>
+            <label className={classes.Label}>{label}</label>
             {inputElement}
             {validationError}
         </div>
     );
-    
+
 };
 
 
-export default input;
+export default Input;

@@ -6,37 +6,36 @@ import classes from './Layout.css';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 
-const layout = props => {
+
+// this component is not a HOC, it should be placed in components
+
+const Layout = ({ isAuthenticated, children }) => {
 	const [sideDrawerIsVisible, setSideDrawerIsVisible] = useState(false);
 
-	const sideDrawerClosedHandler = () => {
-		setSideDrawerIsVisible(false);
-	}
+// why not one liner?
+	const sideDrawerClosedHandler = () => setSideDrawerIsVisible(false);
 
-	const sideDrawerToggleHandler = () => {
-		setSideDrawerIsVisible(!sideDrawerIsVisible);
-	}
+	const sideDrawerToggleHandler = () => setSideDrawerIsVisible(!sideDrawerIsVisible);
 
 	return (
+		// aux not needed -> React.Fragment -> <> </>
 		<Aux>
-			<Toolbar 
-				isAuth={props.isAuthenticated}
+			<Toolbar
+				isAuth={isAuthenticated}
 				drawerToggleClicked={sideDrawerToggleHandler} />
-			<SideDrawer 
-				isAuth={props.isAuthenticated}
-				open={sideDrawerIsVisible} 
+			<SideDrawer
+				isAuth={isAuthenticated}
+				open={sideDrawerIsVisible}
 				closed={sideDrawerClosedHandler} />
 			<main className={classes.Content}>
-			{props.children}
+				{children}
 			</main>
 		</Aux>
 	);
 };
 
-const mapStateToProps = state => {
-	return {
-		isAuthenticated: state.auth.token !== null
-	};
-};
+const mapStateToProps = state => ({
+	isAuthenticated: state.auth.token !== null
+});
 
-export default connect(mapStateToProps)(layout);
+export default connect(mapStateToProps)(Layout);

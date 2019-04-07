@@ -22,6 +22,7 @@ export function* authUserSaga(action) {
             password: action.password,
             returnSecureToken: true
         };
+        // both urls are same
         let url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyCVvF1S3jTGmUC-iIn12phoNg6X2nlwSFs';
         if (!action.isSignup) {
             url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyCVvF1S3jTGmUC-iIn12phoNg6X2nlwSFs';
@@ -36,7 +37,7 @@ export function* authUserSaga(action) {
             yield put(actions.checkAuthTimeout(response.data.expiresIn));
         } catch(error) {
             yield put(actions.authFail(error.response.data.error));
-        }        
+        }
 }
 
 export function* authCheckStateSaga(action) {
